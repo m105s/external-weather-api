@@ -1,5 +1,6 @@
 package com.m105s.weatherapi.service;
 
+import com.m105s.weatherapi.model.WeatherCoordinatesDto;
 import com.m105s.weatherapi.model.WeatherDto;
 import com.m105s.weatherapi.webclient.weather.WeatherClient;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class WeatherService {
         return weatherClient.getWeatherCity(city);
     }
 
-//    public WeatherDto getWeather(double let, double lon) {
-//        String response = weatherClient.getForecastForCoordinates(let,lon);
-//    }
+    public WeatherCoordinatesDto getWeatherForCoordinates(double lat, double lon) {
+        return weatherClient.getForecastForCoordinates(lat,lon);
+    }
 
 }
