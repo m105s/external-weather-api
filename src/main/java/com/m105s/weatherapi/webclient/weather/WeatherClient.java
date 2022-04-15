@@ -1,6 +1,9 @@
 package com.m105s.weatherapi.webclient.weather;
 
+import com.m105s.weatherapi.model.WeatherCoordinatesDto;
 import com.m105s.weatherapi.model.WeatherDto;
+import com.m105s.weatherapi.webclient.weather.dto.OpenWeatherCoordinatesCurrentDto;
+import com.m105s.weatherapi.webclient.weather.dto.OpenWeatherCoordinatesDto;
 import com.m105s.weatherapi.webclient.weather.dto.OpenWeatherDto;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -26,10 +29,17 @@ public class WeatherClient {
 
     }
 
-    public String getForecastForCoordinates(double lat, double lon) {
-        return callGetMethod("/onecall?lat={lat}&lon={lon}&exclude=minutely,hourly&appid={apiKey}}",
-                String.class,
+    public WeatherCoordinatesDto getForecastForCoordinates(double lat, double lon) {
+        OpenWeatherCoordinatesDto openWeatherCoordinatesDto = callGetMethod("/onecall?lat={lat}&lon={lon}&units=metric&exclude=minutely,hourly&appid={apiKey}",
+                OpenWeatherCoordinatesDto.class,
                 lat, lon, API_KEY);
+
+        return WeatherCoordinatesDto.builder()
+                .temperature(openWeatherCoordinatesDto.getCurrent().getTemp())
+                .windchillFactor(openWeatherCoordinatesDto.getCurrent().getFeels_like())
+                .pressure(openWeatherCoordinatesDto.getCurrent().getPressure())
+                .humidity(openWeatherCoordinatesDto.getCurrent().getHumidity())
+                .build();
     }
 
     private <T> T callGetMethod(String url, Class<T> responseType, Object... objects) {

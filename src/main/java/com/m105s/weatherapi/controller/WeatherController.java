@@ -1,5 +1,6 @@
 package com.m105s.weatherapi.controller;
 
+import com.m105s.weatherapi.model.WeatherCoordinatesDto;
 import com.m105s.weatherapi.model.WeatherDto;
 import com.m105s.weatherapi.service.WeatherService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,11 @@ public class WeatherController {
     @GetMapping("/weather/{cityName}")
     public WeatherDto getWeather(@PathVariable String cityName) {
         return this.weatherService.getWeather(cityName);
+    }
+
+    @GetMapping("/weather/{lat}/{lon}")
+    public WeatherCoordinatesDto getWeatherForCoordinates(@PathVariable double lat, @PathVariable double lon) {
+        return this.weatherService.getWeatherForCoordinates(lat,lon);
     }
 
 }
